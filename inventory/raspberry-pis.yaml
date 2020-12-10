@@ -1,0 +1,26 @@
+all:
+  hosts:
+    node-01.apocrathia.com:
+      ansible_host: 10.50.8.25
+    node-02.apocrathia.com:
+      ansible_host: 10.50.8.26
+    node-03.apocrathia.com:
+      ansible_host: 10.50.8.27
+    node-04.apocrathia.com:
+      ansible_host: 10.50.8.28
+    node-05.apocrathia.com:
+      ansible_host: 10.50.8.29
+    node-06.apocrathia.com:
+      ansible_host: 10.50.8.30
+    node-07.apocrathia.com:
+      ansible_host: 10.50.8.31
+    node-08.apocrathia.com:
+      ansible_host: 10.50.8.32
+    node-09.apocrathia.com:
+      ansible_host: 10.50.8.33
+    node-10.apocrathia.com:
+      ansible_host: 10.50.8.34
+    node-11.apocrathia.com:
+      ansible_host: 10.50.8.35
+    node-12.apocrathia.com:
+      ansible_host: 10.50.8.36

@@ -1,0 +1,11 @@
+all:
+  hosts:
+    #cloud.apocrathia.com:
+    #domain.apocrathia.com:
+    #home.apocrathia.com:
+    management.apocrathia.com:
+    pirate.apocrathia.com:
+    plex.apocrathia.com:
+    #security.apocrathia.com:
+    splunk.apocrathia.com:
+    #vcenter.apocrathia.com:

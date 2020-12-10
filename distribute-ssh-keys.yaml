@@ -1,0 +1,32 @@
+### Distribute SSH Keys ###
+---
+# This playbook will establish the following:
+  # Distribute SSH keys
+
+# Notes:
+# ssh_keys role must be installed
+# ansible-galaxy install oefenweb.ssh_keys
+# it's also in the roles directory of this folder
+
+- hosts: all
+  vars_prompt:
+  - name: username
+    prompt: Who are we going in as?
+    private: no
+  user: >
+    {{ username }}
+  roles:
+  - ssh-keys
+  vars:
+    ssh_keys_private_keys:
+      - owner: >
+          {{ username }}
+        src: ~/.ssh/id_rsa
+    ssh_keys_public_keys:
+      - owner: >
+          {{ username }}
+        src: ~/.ssh/id_rsa.pub
+    ssh_keys_authorized_keys:
+      - owner: >
+          {{ username }}
+        src: ~/.ssh/id_rsa.pub

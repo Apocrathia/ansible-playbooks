@@ -1,0 +1,86 @@
+### New Beginings ###
+---
+# This playbook will establish the following:
+  # Change default password
+  # Create cutom account
+  # Set Hostnames
+  # Update hosts
+
+# Begin playbook
+- hosts: all
+# Prompt for variables
+  vars_prompt:
+  - name: default_username
+    prompt: What is the default username?
+    private: no
+
+  - name: default_password
+    prompt: What is the default password?
+    unsafe: yes
+    private: yes
+
+  - name: new_username
+    prompt: What is the new username?
+    private: no
+
+  - name: new_password
+    prompt: What is new user's password?
+    unsafe: yes
+    private: yes
+
+  # vars:
+  #   ansible_ssh_pass: >
+  #     {{ default_password }}
+
+  user: '{{ default_username }}'
+
+  become: True
+
+  tasks:
+  - name: Change password
+    user:
+      name: >
+        '{{ default_username }}'
+      password: >
+        {{ new_password | password_hash('sha512') }}
+
+  - name: Create new user
+    user:
+      name: >
+        {{ new_username }}
+      password: >
+        {{ new_password | password_hash('sha512') }}
+      shell: /bin/bash
+      groups: 
+        - sudo
+      append: yes
+
+  - name: Set hostname
+    hostname:
+     name: >
+      {{ inventory_hostname }}
+
+  - name: Update host
+    apt: 
+      update_cache: yes
+      upgrade: dist
+      autoclean: yes
+      autoremove: yes
+      force_apt_get: yes 
+      cache_valid_time: 3600
+
+  - name: Check if a reboot is needed
+    register: reboot_required_file
+    stat: 
+      path: /var/run/reboot-required 
+      get_md5: no
+
+  - name: Reboot the box if kernel updated
+    reboot:
+      msg: "Reboot initiated by Ansible for kernel updates"
+      connect_timeout: 5
+      reboot_timeout: 300
+      pre_reboot_delay: 0
+      post_reboot_delay: 30
+      test_command: uptime
+    when: reboot_required_file.stat.exists
